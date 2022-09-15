@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +17,25 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Auth::routes();
+
+Route::group(['middleware'=>['guest']],function(){
+
+    Route::get('/',function(){
+        return view('auth.login');
+    });
+
+
+    
+
+
+});
+
 
     
 
 Route::group(['prefix' => LaravelLocalization::setLocale()
-,'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]], function()
+,'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth']], function()
 {
 	/** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
     
@@ -30,14 +46,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
 	});
 
 
-    Route::resource('grade', 'GradeController');
+    // Route::resource('Grades', [App\Http\Controllers\Grade\GradeController::class,'index']);
 
+
+    Route::group(['namespace'=>'App\Http\Controllers\Grade'] ,function(){
+        Route::resource('Grades', 'GradeController');
+    });
+
+
+    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

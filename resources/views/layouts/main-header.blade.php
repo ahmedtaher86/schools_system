@@ -112,7 +112,11 @@
                                 class="badge badge-info">6</span> </a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><i class="text-info ti-settings"></i>Settings</a>
-                        <a class="dropdown-item" href="#"><i class="text-danger ti-unlock"></i>Logout</a>
+                        <form action="/logout" method="POST">
+                            {{-- <a class="dropdown-item" href="#"><i class="text-danger ti-unlock"></i>Logout</a> --}}
+                            <i class="text-danger ti-unlock"></i><input type="submit" class="dropdown-item" value="Logout" >
+                        </form>
+                        
                     </div>
                 </li>
             </ul>

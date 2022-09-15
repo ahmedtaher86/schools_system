@@ -1,8 +1,8 @@
 <?php 
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Grade;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class GradeController extends Controller 
 {
@@ -14,7 +14,7 @@ class GradeController extends Controller
    */
   public function index()
   {
-    
+    return view('pages.Grades.Grades');
   }
 
   /**
