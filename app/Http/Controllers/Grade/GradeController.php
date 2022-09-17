@@ -84,9 +84,26 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request ,$id)
   {
+
+
+    $request->validate([
+      'name_ar' => 'required|max:255',
+      'name_en' => 'required|max:255',
+      'notes' => 'required',
+    ]);
     
+
+    $Grade = Grade::find($id);
+    $Grade->name_ar=$request->name_ar;
+    $Grade->name_en=$request->name_en;
+    $Grade->notes=$request->notes;
+    $Grade->save();
+
+    return redirect()->route('Grades.index')->with('success' , 'تم تعديل المرحلة بنجاح');
+
+
   }
 
   /**
@@ -97,7 +114,12 @@ class GradeController extends Controller
    */
   public function destroy($id)
   {
+
+    Grade::FindOrFail($id)->delete();
     
+
+    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
+
   }
   
 }

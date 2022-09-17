@@ -14,4 +14,16 @@ class Grade extends Model
     protected $table = 'grades';
     public $timestamps = true;
 
+
+
+    public function classrooms()
+    {
+        return $this->hasMany('App\Models\Classroom', 'grade_id');
+    }
+
+    
+
+
+
+
 }
