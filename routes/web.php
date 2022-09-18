@@ -39,6 +39,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
 {
 	/** ADD ALL LOCALIZED ROUTES INSIDE THIS GROUP **/
     
+
+
+    // =============================================dashboard============================================
     Route::get('/', function()
 	{
         return view('dashboard');
@@ -48,13 +51,22 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
 
     // Route::resource('Grades', [App\Http\Controllers\Grade\GradeController::class,'index']);
 
+        // =============================================Grades===========================================
 
     Route::group(['namespace'=>'App\Http\Controllers\Grade'] ,function(){
         Route::resource('Grades', 'GradeController');
     });
 
 
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/classrooms', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+        // =============================================ClassRooms===========================================
+
+        Route::group(['namespace'=>'App\Http\Controllers\Classroom'] ,function(){
+            Route::resource('Classrooms', 'ClassroomController');
+        });
+    
 });
 
 

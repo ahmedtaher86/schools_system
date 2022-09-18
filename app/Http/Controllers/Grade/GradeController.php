@@ -1,8 +1,11 @@
 <?php 
 namespace App\Http\Controllers\Grade;
 
+use App\Models\Grade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Validator;
+use Termwind\Components\Dd;
 
 class GradeController extends Controller 
 {
@@ -14,7 +17,8 @@ class GradeController extends Controller
    */
   public function index()
   {
-    return view('pages.Grades.Grades');
+    $Grades=Grade::all();
+    return view('pages.Grades.Grades' , compact('Grades'));
   }
 
   /**
@@ -34,7 +38,22 @@ class GradeController extends Controller
    */
   public function store(Request $request)
   {
-    
+
+    $request->validate([
+      'name_ar' => 'required|unique:grades|max:255',
+      'name_en' => 'required|unique:grades|max:255',
+      'notes' => 'required',
+  ]);
+
+   
+
+    $Grade = new Grade();
+    $Grade->name_ar=$request->name_ar;
+    $Grade->name_en=$request->name_en;
+    $Grade->notes=$request->notes;
+    $Grade->save();
+
+    return redirect()->route('Grades.index')->with('success' , 'تم اضافة المرحلة بنجاح');
   }
 
   /**
@@ -65,9 +84,26 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request ,$id)
   {
+
+
+    $request->validate([
+      'name_ar' => 'required|max:255',
+      'name_en' => 'required|max:255',
+      'notes' => 'required',
+    ]);
     
+
+    $Grade = Grade::find($id);
+    $Grade->name_ar=$request->name_ar;
+    $Grade->name_en=$request->name_en;
+    $Grade->notes=$request->notes;
+    $Grade->save();
+
+    return redirect()->route('Grades.index')->with('success' , 'تم تعديل المرحلة بنجاح');
+
+
   }
 
   /**
@@ -78,7 +114,12 @@ class GradeController extends Controller
    */
   public function destroy($id)
   {
+
+    Grade::FindOrFail($id)->delete();
     
+
+    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
+
   }
   
 }
