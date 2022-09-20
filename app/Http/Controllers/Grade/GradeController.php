@@ -88,9 +88,12 @@ class GradeController extends Controller
   {
 
 
+
     $request->validate([
-      'name_ar' => 'required|max:255',
-      'name_en' => 'required|max:255',
+      'name_ar' => 'required|max:255|unique:grades,name_ar,'.$id,
+      // bas howa law m3rfsh el id momken t3ml fasla kman w t3ml concatintate w t3ml 
+      // dawar 3la laravel unique 
+      'name_en' => 'required|max:255|unique:grades,name_en,'.$id,
       'notes' => 'required',
     ]);
     
@@ -115,10 +118,20 @@ class GradeController extends Controller
   public function destroy($id)
   {
 
-    Grade::FindOrFail($id)->delete();
+    $selected_grade=Grade::FindOrFail($id);
+
+    if(!$selected_grade->Classrooms->isEmpty()){
+      return redirect()->route('Grades.index')->with('error' , 'لا يمكن حذف المرحلة لوجود صفوف تابعة لها');
+    }
+    
+    else{
+      Grade::FindOrFail($id)->delete();
+    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
+    }
+
+    
     
 
-    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
 
   }
   

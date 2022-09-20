@@ -25,10 +25,6 @@ Route::group(['middleware'=>['guest']],function(){
         return view('auth.login');
     });
 
-
-    
-
-
 });
 
 
@@ -48,10 +44,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
 
 	});
 
+    Route::get('/dashboard', function()
+	{
+        return view('dashboard');
+
+	});
+
 
     // Route::resource('Grades', [App\Http\Controllers\Grade\GradeController::class,'index']);
 
-        // =============================================Grades===========================================
+// =============================================Grades===========================================
 
     Route::group(['namespace'=>'App\Http\Controllers\Grade'] ,function(){
         Route::resource('Grades', 'GradeController');
@@ -61,7 +63,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
     Route::get('/classrooms', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-        // =============================================ClassRooms===========================================
+// =============================================ClassRooms===========================================
 
         Route::group(['namespace'=>'App\Http\Controllers\Classroom'] ,function(){
             Route::resource('Classrooms', 'ClassroomController');

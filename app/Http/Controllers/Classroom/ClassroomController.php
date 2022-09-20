@@ -49,10 +49,23 @@ class ClassroomController extends Controller
     // foreach ($request->List_Classes as $key => $value) {
     // }
 
+    $request->validate([
+      'List_Classes.*.name_ar' => 'required|unique:classrooms|max:255',
+      'List_Classes.*.name_en' => 'required|unique:classrooms|max:255',
+      'List_Classes.*.Grade_id' => 'required|exists:grades,id',
+    ]);
+
+
 
   try {
     $List_Classes=$request->List_Classes;
+   
+
     foreach ($List_Classes as $key => $value) {
+        
+ 
+
+
       $Classroom=Classroom::create([
         'name_ar'=>$value['name_ar'],
         'name_en'=>$value['name_en'],
@@ -98,8 +111,24 @@ class ClassroomController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function update($id)
+  public function update(Request $request ,  $id)
   {
+
+    $request->validate([
+      'name_ar' => 'required|max:255|unique:classrooms,name_ar,'.$id,
+      // bas howa law m3rfsh el id momken t3ml fasla kman w t3ml concatintate w t3ml 
+      // dawar 3la laravel unique 
+      'name_en' => 'required|max:255|unique:classrooms,name_en,'.$id,
+      'grade_id' => 'required|exists:grades,id',
+    ]);
+
+    $Classroom = Classroom::find($id);
+    $Classroom->name_ar=$request->name_ar;
+    $Classroom->name_en=$request->name_en;
+    $Classroom->grade_id=$request->grade_id;
+    $Classroom->save();
+
+    return redirect()->route('Classrooms.index')->with('success' , 'تم تعديل الصف بنجاح');
     
   }
 
@@ -112,6 +141,12 @@ class ClassroomController extends Controller
   public function destroy($id)
   {
     
+    
+    Classroom::FindOrFail($id)->delete();
+    
+
+    return redirect()->route('Classrooms.index')->with('success',trans('messages.Delete'));
+
   }
   
 }
