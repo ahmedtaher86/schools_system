@@ -51,11 +51,17 @@
             <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal">
                 {{ trans('My_classes_trans.add_class') }}
             </button>
+
+            <button type="button" class="button x-small" id="btn_delete_all">
+                {{ trans('My_Classes_trans.delete_checkbox') }}
+            </button>
+
             <br><br>
           <div class="table-responsive">
           <table id="datatable" class="table table-striped table-bordered p-0">
             <thead>
                 <tr>
+                    <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
                     <th>#</th>
                     <th>{{ trans('My_classes_trans.Name_class_en')}}</th>
                     <th>{{ trans('My_classes_trans.Name_class_ar')}}</th>
@@ -74,6 +80,7 @@
                 @foreach ( $My_classes as $key => $My_class )
                 
                 <tr>
+                    <td><input type="checkbox" name= "id[]" class="box1" class="checkbox" value="{{ $My_class->id }}"></td>
                     <td>{{$key+1}}</td>
                     <td>{{$My_class['name_en']}}</td>
                     <td>{{$My_class['name_ar']}}</td>

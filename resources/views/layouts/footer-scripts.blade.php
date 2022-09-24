@@ -29,3 +29,26 @@
 <script src="{{ URL::asset('assets/js/lobilist.js') }}"></script>
 <!-- custom -->
 <script src="{{ URL::asset('assets/js/custom.js') }}"></script>
+
+
+<script>
+    function CheckAll(){
+        var checkboxes = document.getElementsByName('id[]');
+        if(document.getElementById('example-select-all').checked){
+            for (var i = 0; i < checkboxes.length ; i++) {
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = true;
+                }
+            }
+        }else{
+            for (var i = 0; i < checkboxes.length; i++) {
+                console.log(i)
+                if (checkboxes[i].type == 'checkbox') {
+                    checkboxes[i].checked = false;
+                }
+            }
+        }
+    }
+
+
+</script>

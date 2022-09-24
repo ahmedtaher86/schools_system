@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Grade;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Classroom;
 use Illuminate\Validation\Validator;
 use Termwind\Components\Dd;
 
@@ -115,13 +116,22 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Request $request,$id)
   {
+
+    // $My_Classroom_id = Classroom::where('grade_id',$id)->pluck('grade_id');
+
+
+
+    // if($My_Classroom_id->count() > 0){
+    //   return redirect()->route('Grades.index')->with('error' , 'لا يمكن حذف المرحلة لوجود صفوف دراسية مرتبطة بها');
+    // }
+
 
     $selected_grade=Grade::FindOrFail($id);
 
     if(!$selected_grade->Classrooms->isEmpty()){
-      return redirect()->route('Grades.index')->with('error' , 'لا يمكن حذف المرحلة لوجود صفوف تابعة لها');
+      return redirect()->route('Grades.index')->with('issue' , 'لا يمكن حذف المرحلة لوجود صفوف تابعة لها');
     }
     
     else{

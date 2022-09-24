@@ -20,6 +20,8 @@
       'Edit'=>'Edit',
       'Delete'=>'Delete',
       'Close' => 'Close',
+      'delete_checkbox'=>'Delete Selected',
+      
   
   ];
 
