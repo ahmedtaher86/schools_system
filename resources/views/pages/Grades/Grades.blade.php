@@ -21,12 +21,25 @@
     </div>
 </div>
 
+@php $SessIons= Session::all()@endphp
+{{-- @dd($SessIons); --}}
 @if ($massages = Session::get('success'))
     <div class="alert alert-success alert-block">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <strong>{{$massages}}</strong>
     </div>
     
+@endif
+
+{{-- @dd($SessIons["3eeb"]); --}}
+
+
+@if (isset($SessIons["issue"]))
+<div class="alert alert-danger">
+    <ul>
+            <li>{{ $SessIons["issue"] }}</li>
+    </ul>
+</div>
 @endif
 
 @if ($errors->any())

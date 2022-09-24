@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Grade;
 use App\Models\Grade;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Classroom;
 use Illuminate\Validation\Validator;
 use Termwind\Components\Dd;
 
@@ -88,9 +89,12 @@ class GradeController extends Controller
   {
 
 
+
     $request->validate([
-      'name_ar' => 'required|max:255',
-      'name_en' => 'required|max:255',
+      'name_ar' => 'required|max:255|unique:grades,name_ar,'.$id,
+      // bas howa law m3rfsh el id momken t3ml fasla kman w t3ml concatintate w t3ml 
+      // dawar 3la laravel unique 
+      'name_en' => 'required|max:255|unique:grades,name_en,'.$id,
       'notes' => 'required',
     ]);
     
@@ -112,13 +116,32 @@ class GradeController extends Controller
    * @param  int  $id
    * @return Response
    */
-  public function destroy($id)
+  public function destroy(Request $request,$id)
   {
 
-    Grade::FindOrFail($id)->delete();
+    // $My_Classroom_id = Classroom::where('grade_id',$id)->pluck('grade_id');
+
+
+
+    // if($My_Classroom_id->count() > 0){
+    //   return redirect()->route('Grades.index')->with('error' , 'لا يمكن حذف المرحلة لوجود صفوف دراسية مرتبطة بها');
+    // }
+
+
+    $selected_grade=Grade::FindOrFail($id);
+
+    if(!$selected_grade->Classrooms->isEmpty()){
+      return redirect()->route('Grades.index')->with('issue' , 'لا يمكن حذف المرحلة لوجود صفوف تابعة لها');
+    }
+    
+    else{
+      Grade::FindOrFail($id)->delete();
+    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
+    }
+
+    
     
 
-    return redirect()->route('Grades.index')->with('success',trans('messages.Delete'));
 
   }
   
