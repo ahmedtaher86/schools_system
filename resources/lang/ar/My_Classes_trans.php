@@ -21,4 +21,5 @@ return [
   'Delete'=>'حذف',
   'Close' => 'اغلاق',
   'delete_checkbox'=>'حذف الصفوف المختارة ',
+  'Warning_Grade'=> 'هل انت متاكد من عملية الحذف ؟',
 ];
