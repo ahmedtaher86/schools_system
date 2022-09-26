@@ -67,6 +67,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale()
 
         Route::group(['namespace'=>'App\Http\Controllers\Classroom'] ,function(){
             Route::resource('Classrooms', 'ClassroomController');
+            Route::post('delete_all', 'ClassroomController@delete_all')->name('delete_all');
         });
     
 });

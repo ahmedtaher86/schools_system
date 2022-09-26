@@ -61,7 +61,7 @@
           <table id="datatable" class="table table-striped table-bordered p-0">
             <thead>
                 <tr>
-                    <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)" /></th>
+                    <th><input name="select_all" id="example-select-all" type="checkbox" onclick="CheckAll('box1', this)"/></th>
                     <th>#</th>
                     <th>{{ trans('My_classes_trans.Name_class_en')}}</th>
                     <th>{{ trans('My_classes_trans.Name_class_ar')}}</th>
@@ -70,7 +70,7 @@
                
                 </tr>
             </thead>
-            <tbody>
+            <tbody id='hamoksha'>
                 {{-- <tr>
                     <td>Tiger Nixon</td>
                     <td>System Architect</td>
@@ -193,6 +193,39 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 
 
 
+<!-- حذف مجموعة صفوف -->
+<div class="modal fade" id="delete_all" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
+                    {{ trans('My_Classes_trans.delete_class') }}
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form action="{{ route('delete_all') }}" method="POST">
+                {{ csrf_field() }}
+                <div class="modal-body">
+                    {{ trans('My_Classes_trans.Warning_Grade') }}
+                    <input class="text" type="hidden" id="delete_all_id" name="delete_all_id" value=''>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary"
+                            data-dismiss="modal">{{ trans('My_Classes_trans.Close') }}</button>
+                    <button type="submit" class="btn btn-danger">{{ trans('My_Classes_trans.submit') }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
 
                 @endforeach
 
@@ -304,4 +337,24 @@ aria-hidden="true">
 @endsection
 @section('js')
 
+{{-- <script> 
+console.log($("#datatable input[type=checkbox]:checked"));
+</script> --}}
+
+<script type="text/javascript">
+    $(function() {
+        $("#btn_delete_all").click(function() {
+            var selected = new Array();
+            console.log($("#datatable input[type=checkbox]:checked"));
+            $("#hamoksha input[type=checkbox]:checked").each(function() {
+                    // console.log(this.value);
+                    selected.push(this.value);
+            });
+            if (selected.length > 0) {
+                $('#delete_all').modal('show');
+                $('input[id="delete_all_id"]').val(selected);
+            }
+        });
+    });
+</script>
 @endsection

@@ -148,6 +148,44 @@ class ClassroomController extends Controller
     return redirect()->route('Classrooms.index')->with('success',trans('messages.Delete'));
 
   }
+
+
+  public function delete_all(Request $request)
+  {
+    
+    // dd($request['delete_all_id']);
+    $array = explode(',', $request['delete_all_id']);
+    // dd($array);
+
+
+
+    // da kood wese5 hy3ml kaza query 3shan 
+    // ya3ny kol row leeh el query bta3to 
+    // not good solution performance wise 
+    
+    
+    
+    // foreach ($array as $key => $value) {
+    //   Classroom::FindOrFail($value)->delete();
+    // }
+
+
+    //this code is good and best performance 
+
+    Classroom::whereIn('id', $array)->delete();
+
+
+
+
+
+
+    // foreach($request['delete_all_id']);
+    // Classroom::FindOrFail($id)->delete();
+    
+
+    return redirect()->route('Classrooms.index')->with('success',trans('messages.Delete'));
+
+  }
   
 }
 
